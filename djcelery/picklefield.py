@@ -33,12 +33,16 @@ DEFAULT_PROTOCOL = 2
 NO_DECOMPRESS_HEADER = b'\x1e\x00r8d9qwwerwhA@'
 
 
-@with_metaclass(models.SubfieldBase, skip_attrs=set([
-    'db_type',
-    'get_db_prep_save'
-    ]))
+# @with_metaclass(models.SubfieldBase, skip_attrs=set([
+#     'db_type',
+#     'get_db_prep_save'
+#     ]))
+# class BaseField(models.Field):
+#     pass
+
 class BaseField(models.Field):
-    pass
+    def from_db_value(self, value, expression, connection, context):
+        return self.to_python(value)
 
 
 class PickledObject(str):
